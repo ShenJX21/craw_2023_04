@@ -1,0 +1,26 @@
+name: update_requirements
+'on':
+#   schedule:
+#     - cron: '0 18 * * *'
+  workflow_dispatch: # 添加一个可以手动运行的按钮
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Node.js 16
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.API_TOKEN_GITHUB_2 }} # Use your personal access token
+          fetch-depth: 0
+      
+      - name: Self test
+        id: selftest
+        uses: ryan-rozario/pipreqs-action-cpy@master
+        with:
+          PROJECT_PATH: .
+          REQUIREMENT_PATH: ./requirements.txt  #default is requirement.txt in the root of your repository 
